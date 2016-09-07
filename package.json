@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "misskey-reverse-proxy",
+  "version": "0.0.0",
+  "description": "Misskey Reverse Proxy",
+  "author": "syuilo <i@syuilo.com>",
+  "license": "MIT",
+  "repository": "https://github.com/syuilo/misskey-reverse-proxy.git",
+  "bugs": "https://github.com/syuilo/misskey-reverse-proxy/issues",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "dependencies": {
+    "http-proxy": "1.14.0"
+  }
+}
