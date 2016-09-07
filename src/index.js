@@ -4,7 +4,7 @@ const httpProxy = require('http-proxy');
 const proxy = httpProxy.createProxyServer({});
 
 const server = http.createServer((req, res) => {
-	const domain = req.headers.host.replace('misskey.xyz', '');
+	const domain = req.headers.host.replace(/\.?misskey\.xyz$/, '');
 	switch (domain) {
 		case '':
 		case 'about':
