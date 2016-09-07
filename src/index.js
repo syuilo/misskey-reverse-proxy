@@ -27,4 +27,8 @@ const server = http.createServer((req, res) => {
 	}
 });
 
+server.on('upgrade', (req, socket, head) => {
+  proxy.ws(req, socket, head, { target: 'ws://localhost:8001' });
+});
+
 server.listen(80);
