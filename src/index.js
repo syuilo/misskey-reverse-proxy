@@ -3,25 +3,12 @@ const httpProxy = require('http-proxy');
 
 const config = require('./config');
 
-// Load Configuration
-let conf;
-try {
-	conf = config();
-} catch (e) {
-	if (e.code !== 'ENOENT') {
-		console.error('Failed to load configuration');
-		process.exit(1);
-	}
-	console.error('Config not found');
-	process.exit(1);
-}
-
 const proxy = httpProxy.createProxyServer({});
 
 const server = http.createServer((req, res) => {
 	const forwarded = req.headers['X-Forwarded-Proto'];
 
-	if (typeof forwarded !== 'undefined' && forwarded !== null && forwarded === 'http' && conf.https) {
+	if (typeof forwarded !== 'undefined' && forwarded !== null && forwarded === 'http' && config.https) {
 		res.writeHead(301, {
 			'Location': 'https://' + req.host + req.originalUrl
 		});
@@ -38,13 +25,13 @@ const server = http.createServer((req, res) => {
 		case 'signup':
 		case 'status':
 		case 'talk':
-			proxy.web(req, res, { target: 'http://localhost:' + conf.ports.web });
+			proxy.web(req, res, { target: 'http://localhost:' + config.ports.web });
 			break;
 		case 'api':
-			proxy.web(req, res, { target: 'http://localhost:' + conf.ports.core });
+			proxy.web(req, res, { target: 'http://localhost:' + config.ports.core });
 			break;
 		case 'file':
-			proxy.web(req, res, { target: 'http://localhost:' + conf.ports.file });
+			proxy.web(req, res, { target: 'http://localhost:' + config.ports.file });
 			break;
 		default:
 			console.log(`Unknown domain: ${domain}`);
