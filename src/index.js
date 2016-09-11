@@ -4,26 +4,31 @@ const httpProxy = require('http-proxy');
 const proxy = httpProxy.createProxyServer({});
 
 const server = http.createServer((req, res) => {
-	const domain = req.headers.host.replace(/\.?misskey\.xyz$/, '');
-	switch (domain) {
-		case '':
-		case 'about':
-		case 'signin':
-		case 'signout':
-		case 'signup':
-		case 'status':
-		case 'talk':
-			proxy.web(req, res, { target: 'http://localhost:8000' });
-			break;
-		case 'api':
-			proxy.web(req, res, { target: 'http://localhost:8001' });
-			break;
-		case 'file':
-			proxy.web(req, res, { target: 'http://localhost:8002' });
-			break;
-		default:
-			console.log(`Unknown domain: ${domain}`);
-			break;
+	const forwarded = req.headers['X-Forwarded-Proto']
+	if (forwarded !== null && forwarded === 'http') {
+		res.redirect(301, 'https://' + req.host + req.originalUrl)
+	} else {
+		const domain = req.headers.host.replace(/\.?misskey\.xyz$/, '');
+		switch (domain) {
+			case '':
+			case 'about':
+			case 'signin':
+			case 'signout':
+			case 'signup':
+			case 'status':
+			case 'talk':
+				proxy.web(req, res, { target: 'http://localhost:8000' });
+				break;
+			case 'api':
+				proxy.web(req, res, { target: 'http://localhost:8001' });
+				break;
+			case 'file':
+				proxy.web(req, res, { target: 'http://localhost:8002' });
+				break;
+			default:
+				console.log(`Unknown domain: ${domain}`);
+				break;
+		}
 	}
 });
 
