@@ -16,7 +16,12 @@ Configuration
 ```
 {
     "port":     80,
-    "https":    true
+    "https":    true,
+    "ports": {
+        "web":  8000,
+        "core": 8001,
+        "file": 8002
+    }
 }
 ```
 

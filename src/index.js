@@ -38,13 +38,13 @@ const server = http.createServer((req, res) => {
 		case 'signup':
 		case 'status':
 		case 'talk':
-			proxy.web(req, res, { target: 'http://localhost:8000' });
+			proxy.web(req, res, { target: 'http://localhost:' + conf.ports.web });
 			break;
 		case 'api':
-			proxy.web(req, res, { target: 'http://localhost:8001' });
+			proxy.web(req, res, { target: 'http://localhost:' + conf.ports.core });
 			break;
 		case 'file':
-			proxy.web(req, res, { target: 'http://localhost:8002' });
+			proxy.web(req, res, { target: 'http://localhost:' + conf.ports.file });
 			break;
 		default:
 			console.log(`Unknown domain: ${domain}`);
