@@ -9,6 +9,17 @@ Required
 --------
 * Node.js
 
+Configuration
+--------
+`.config/config.json`を用意してください。  
+下記がサンプルです。  
+```
+{
+    "port":     80,
+    "https":    true
+}
+```
+
 License
 -------
 [MIT](LICENSE)
