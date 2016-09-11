@@ -1,7 +1,7 @@
 const http = require('http');
 const httpProxy = require('http-proxy');
-
 const config = require('./config');
+const host = 'http://localhost';
 
 const proxy = httpProxy.createProxyServer({});
 
@@ -25,13 +25,13 @@ const server = http.createServer((req, res) => {
 		case 'signup':
 		case 'status':
 		case 'talk':
-			proxy.web(req, res, { target: 'http://localhost:' + config.ports.web });
+			proxy.web(req, res, { target: `${host}:${config.ports.web}` });
 			break;
 		case 'api':
-			proxy.web(req, res, { target: 'http://localhost:' + config.ports.core });
+			proxy.web(req, res, { target: `${host}:${config.ports.core}` });
 			break;
 		case 'file':
-			proxy.web(req, res, { target: 'http://localhost:' + config.ports.file });
+			proxy.web(req, res, { target: `${host}:${config.ports.file}` });
 			break;
 		default:
 			console.log(`Unknown domain: ${domain}`);
