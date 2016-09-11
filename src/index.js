@@ -4,6 +4,13 @@ const httpProxy = require('http-proxy');
 const proxy = httpProxy.createProxyServer({});
 
 const server = http.createServer((req, res) => {
+	const forwarded = req.headers['X-Forwarded-Proto'];
+
+	if (typeof forwarded !== 'undefined' && forwarded !== null && forwarded === 'http') {
+		res.redirect(301, 'https://' + req.host + req.originalUrl);
+		return;
+	}
+
 	const domain = req.headers.host.replace(/\.?misskey\.xyz$/, '');
 	switch (domain) {
 		case '':
