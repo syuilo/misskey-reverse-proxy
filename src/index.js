@@ -7,7 +7,10 @@ const server = http.createServer((req, res) => {
 	const forwarded = req.headers['X-Forwarded-Proto'];
 
 	if (typeof forwarded !== 'undefined' && forwarded !== null && forwarded === 'http') {
-		res.redirect(301, 'https://' + req.host + req.originalUrl);
+		res.writeHead(301, {
+			'Location': 'https://' + req.host + req.originalUrl
+		});
+		res.end();
 		return;
 	}
 
