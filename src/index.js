@@ -16,7 +16,13 @@ const server = http.createServer((req, res) => {
 		return;
 	}
 
-	const domain = req.headers.host.replace(/\.?misskey\.xyz$/, '');
+	const host = req.headers.host;
+
+	if (host == null) {
+		return;
+	}
+
+	const domain = host.replace(/\.?misskey\.xyz$/, '');
 	switch (domain) {
 		case '':
 		case 'about':
@@ -43,4 +49,4 @@ server.on('upgrade', (req, socket, head) => {
   proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.core}` });
 });
 
-server.listen(conf.port);
+server.listen(config.port);
