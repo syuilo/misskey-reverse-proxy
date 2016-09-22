@@ -16,13 +16,14 @@ const server = http.createServer((req, res) => {
 		return;
 	}
 
-	const host = req.headers.host;
+	const reqHost = req.headers.host;
 
-	if (host == null) {
+	if (reqHost == null) {
 		return;
 	}
 
-	const domain = host.replace(/\.?misskey\.xyz$/, '');
+	const domain = reqHost.replace(/\.?misskey\.xyz$/, '');
+
 	switch (domain) {
 		case '':
 		case 'about':
