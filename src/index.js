@@ -22,26 +22,28 @@ const server = http.createServer((req, res) => {
 		return;
 	}
 
-	const domain = reqHost.replace(/\.?misskey\.xyz$/, '');
-
-	switch (domain) {
-		case '':
-		case 'about':
-		case 'signin':
-		case 'signout':
-		case 'signup':
-		case 'status':
-		case 'talk':
+	switch (reqHost) {
+		case 'misskey.xyz':
+		case 'm.misskey.xyz':
+		case 'about.misskey.xyz':
+		case 'signin.misskey.xyz':
+		case 'signout.misskey.xyz':
+		case 'signup.misskey.xyz':
+		case 'status.misskey.xyz':
+		case 'talk.misskey.xyz':
 			proxy.web(req, res, { target: `http://${host}:${config.ports.web}` });
 			break;
-		case 'api':
+		case 'api.misskey.xyz':
 			proxy.web(req, res, { target: `http://${host}:${config.ports.core}` });
 			break;
-		case 'file':
+		case 'himasaku.net':
 			proxy.web(req, res, { target: `http://${host}:${config.ports.file}` });
 			break;
+		case 'proxy.himasaku.net':
+			proxy.web(req, res, { target: `http://${host}:${config.ports.proxy}` });
+			break;
 		default:
-			console.log(`Unknown domain: ${domain}`);
+			console.log(`Unknown host: ${reqHost}`);
 			break;
 	}
 });
