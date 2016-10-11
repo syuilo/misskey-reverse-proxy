@@ -25,6 +25,7 @@ const server = http.createServer((req, res) => {
 	switch (reqHost) {
 		case 'misskey.xyz':
 		case 'm.misskey.xyz':
+		case 'mobile.misskey.xyz':
 		case 'about.misskey.xyz':
 		case 'signin.misskey.xyz':
 		case 'signout.misskey.xyz':
