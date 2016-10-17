@@ -6,6 +6,8 @@ const host = 'localhost';
 
 const proxy = httpProxy.createProxyServer({});
 
+const log = accesses.serve();
+
 const server = http.createServer((req, res) => {
 
 	// 非HTTPSはリダイレクト
@@ -52,6 +54,8 @@ const server = http.createServer((req, res) => {
 			console.log(`Unknown host: ${reqHost}`);
 			break;
 	}
+
+	log(req);
 });
 
 server.on('upgrade', (req, socket, head) => {
@@ -84,7 +88,5 @@ server.on('upgrade', (req, socket, head) => {
 			break;
 	}
 });
-
-accesses.attach(server);
 
 server.listen(config.port);
