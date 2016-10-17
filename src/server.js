@@ -1,5 +1,6 @@
 const http = require('http');
 const httpProxy = require('http-proxy');
+const accesses = require('accesses');
 const config = require('./config');
 const host = 'localhost';
 
@@ -52,5 +53,7 @@ const server = http.createServer((req, res) => {
 server.on('upgrade', (req, socket, head) => {
   proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.core}` });
 });
+
+accesses.attach(server);
 
 server.listen(config.port);

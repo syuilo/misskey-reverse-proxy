@@ -12,6 +12,7 @@
     "start": "node ./src/index.js"
   },
   "dependencies": {
+    "accesses": "1.1.0",
     "http-proxy": "1.14.0"
   }
 }
