@@ -1,4 +1,5 @@
 const cluster = require('cluster');
+const accesses = require('accesses');
 
 // Master
 if (cluster.isMaster) {
@@ -10,6 +11,11 @@ if (cluster.isMaster) {
 	for (let i = 0; i < cpuCount; i++) {
 		cluster.fork();
 	}
+
+	accesses.serve({
+		appName: 'Misskey',
+		port: 616
+	});
 }
 // Workers
 else {
