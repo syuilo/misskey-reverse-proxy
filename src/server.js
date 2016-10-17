@@ -7,8 +7,9 @@ const host = 'localhost';
 const proxy = httpProxy.createProxyServer({});
 
 const server = http.createServer((req, res) => {
-	const forwarded = req.headers['X-Forwarded-Proto'];
 
+	// 非HTTPSはリダイレクト
+	const forwarded = req.headers['X-Forwarded-Proto'];
 	if (forwarded && forwarded === 'http' && config.https) {
 		res.writeHead(301, {
 			'Location': 'https://' + req.host + req.originalUrl
