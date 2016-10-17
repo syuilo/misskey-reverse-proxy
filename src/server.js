@@ -44,6 +44,9 @@ const server = http.createServer((req, res) => {
 		case 'proxy.himasaku.net':
 			proxy.web(req, res, { target: `http://${host}:${config.ports.proxy}` });
 			break;
+		case 'log.misskey.xyz':
+			proxy.web(req, res, { target: `http://${host}:616` });
+			break;
 		default:
 			console.log(`Unknown host: ${reqHost}`);
 			break;
@@ -51,7 +54,28 @@ const server = http.createServer((req, res) => {
 });
 
 server.on('upgrade', (req, socket, head) => {
-  proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.core}` });
+	switch (reqHost) {
+		case 'misskey.xyz':
+		case 'm.misskey.xyz':
+		case 'mobile.misskey.xyz':
+		case 'about.misskey.xyz':
+		case 'signin.misskey.xyz':
+		case 'signout.misskey.xyz':
+		case 'signup.misskey.xyz':
+		case 'status.misskey.xyz':
+		case 'talk.misskey.xyz':
+			proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.web}` });
+			break;
+		case 'api.misskey.xyz':
+			proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.core}` });
+			break;
+		case 'log.misskey.xyz':
+			proxy.ws(req, socket, head, { target: `ws://${host}:616` });
+			break;
+		default:
+			console.log(`Unknown host: ${reqHost}`);
+			break;
+	}
 });
 
 accesses.attach(server);
