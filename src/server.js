@@ -54,6 +54,12 @@ const server = http.createServer((req, res) => {
 });
 
 server.on('upgrade', (req, socket, head) => {
+	const reqHost = req.headers.host;
+
+	if (reqHost == null) {
+		return;
+	}
+
 	switch (reqHost) {
 		case 'misskey.xyz':
 		case 'm.misskey.xyz':
