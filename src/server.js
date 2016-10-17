@@ -55,7 +55,9 @@ const server = http.createServer((req, res) => {
 			break;
 	}
 
-	log(req);
+	if (reqHost != 'log.misskey.xyz') {
+		log(req);
+	}
 });
 
 server.on('upgrade', (req, socket, head) => {
