@@ -14,7 +14,8 @@ if (cluster.isMaster) {
 
 	accesses.serve({
 		appName: 'Misskey',
-		port: 616
+		port: 616,
+		hashIp: true
 	});
 }
 // Workers
