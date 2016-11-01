@@ -28,6 +28,8 @@ const server = http.createServer((req, res) => {
 
 	switch (reqHost) {
 		case 'misskey.xyz':
+		case 'auth.misskey.xyz':
+		case 'dev.misskey.xyz':
 		case 'm.misskey.xyz':
 		case 'mobile.misskey.xyz':
 		case 'about.misskey.xyz':
