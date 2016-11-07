@@ -30,8 +30,6 @@ const server = http.createServer((req, res) => {
 		case 'misskey.xyz':
 		case 'auth.misskey.xyz':
 		case 'dev.misskey.xyz':
-		case 'm.misskey.xyz':
-		case 'mobile.misskey.xyz':
 		case 'about.misskey.xyz':
 		case 'signin.misskey.xyz':
 		case 'signout.misskey.xyz':
@@ -54,6 +52,10 @@ const server = http.createServer((req, res) => {
 			break;
 		default:
 			console.log(`Unknown host: ${reqHost}`);
+			res.writeHead(301, {
+				'Location': 'https://misskey.xyz'
+			});
+			res.end();
 			break;
 	}
 
@@ -71,8 +73,6 @@ server.on('upgrade', (req, socket, head) => {
 
 	switch (reqHost) {
 		case 'misskey.xyz':
-		case 'm.misskey.xyz':
-		case 'mobile.misskey.xyz':
 		case 'about.misskey.xyz':
 		case 'signin.misskey.xyz':
 		case 'signout.misskey.xyz':
