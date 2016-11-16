@@ -27,37 +27,41 @@ const server = http.createServer((req, res) => {
 		return;
 	}
 
-	switch (reqHost) {
-		case 'misskey.xyz':
-		case 'auth.misskey.xyz':
-		case 'dev.misskey.xyz':
-		case 'about.misskey.xyz':
-		case 'signin.misskey.xyz':
-		case 'signout.misskey.xyz':
-		case 'signup.misskey.xyz':
-		case 'status.misskey.xyz':
-		case 'messaging.misskey.xyz':
-			proxy.web(req, res, { target: `http://${host}:${config.ports.web}` });
-			break;
-		case 'api.misskey.xyz':
-			proxy.web(req, res, { target: `http://${host}:${config.ports.core}` });
-			break;
-		case 'himasaku.net':
-			proxy.web(req, res, { target: `http://${host}:${config.ports.file}` });
-			break;
-		case 'proxy.himasaku.net':
-			proxy.web(req, res, { target: `http://${host}:${config.ports.proxy}` });
-			break;
-		case 'log.misskey.xyz':
-			proxy.web(req, res, { target: `http://${host}:616` });
-			break;
-		default:
-			console.log(`Unknown host: ${reqHost}`);
-			res.writeHead(301, {
-				'Location': 'https://misskey.xyz'
-			});
-			res.end();
-			break;
+	try {
+		switch (reqHost) {
+			case 'misskey.xyz':
+			case 'auth.misskey.xyz':
+			case 'dev.misskey.xyz':
+			case 'about.misskey.xyz':
+			case 'signin.misskey.xyz':
+			case 'signout.misskey.xyz':
+			case 'signup.misskey.xyz':
+			case 'status.misskey.xyz':
+			case 'messaging.misskey.xyz':
+				proxy.web(req, res, { target: `http://${host}:${config.ports.web}` });
+				break;
+			case 'api.misskey.xyz':
+				proxy.web(req, res, { target: `http://${host}:${config.ports.core}` });
+				break;
+			case 'himasaku.net':
+				proxy.web(req, res, { target: `http://${host}:${config.ports.file}` });
+				break;
+			case 'proxy.himasaku.net':
+				proxy.web(req, res, { target: `http://${host}:${config.ports.proxy}` });
+				break;
+			case 'log.misskey.xyz':
+				proxy.web(req, res, { target: `http://${host}:616` });
+				break;
+			default:
+				console.log(`Unknown host: ${reqHost}`);
+				res.writeHead(301, {
+					'Location': 'https://misskey.xyz'
+				});
+				res.end();
+				break;
+		}
+	} catch (e) {
+		console.error(e);
 	}
 
 	if (reqHost != 'log.misskey.xyz') {
