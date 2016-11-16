@@ -1,3 +1,4 @@
+const url = require('url');
 const http = require('http');
 const httpProxy = require('http-proxy');
 const accesses = require('accesses');
@@ -35,7 +36,7 @@ const server = http.createServer((req, res) => {
 		case 'signout.misskey.xyz':
 		case 'signup.misskey.xyz':
 		case 'status.misskey.xyz':
-		case 'talk.misskey.xyz':
+		case 'messaging.misskey.xyz':
 			proxy.web(req, res, { target: `http://${host}:${config.ports.web}` });
 			break;
 		case 'api.misskey.xyz':
@@ -71,6 +72,8 @@ server.on('upgrade', (req, socket, head) => {
 		return;
 	}
 
+	const _url = url.parse(req.url);
+
 	switch (reqHost) {
 		case 'misskey.xyz':
 		case 'about.misskey.xyz':
@@ -78,11 +81,11 @@ server.on('upgrade', (req, socket, head) => {
 		case 'signout.misskey.xyz':
 		case 'signup.misskey.xyz':
 		case 'status.misskey.xyz':
-		case 'talk.misskey.xyz':
-			proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.web}` });
+		case 'messaging.misskey.xyz':
+			proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.web}${_url.path}` });
 			break;
 		case 'api.misskey.xyz':
-			proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.core}` });
+			proxy.ws(req, socket, head, { target: `ws://${host}:${config.ports.core}${_url.path}` });
 			break;
 		case 'log.misskey.xyz':
 			proxy.ws(req, socket, head, { target: `ws://${host}:616` });
