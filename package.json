@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "accesses": "1.2.0",
-    "http-proxy": "1.14.0"
+    "http-proxy": "1.16.2"
   }
 }
